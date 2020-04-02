@@ -37,7 +37,7 @@ public class Home extends HttpServlet {
 			request.getRequestDispatcher("listUser.jsp").forward(request, response);
 			break;
 		default:
-			
+		
 			request.getRequestDispatcher("error.jsp").forward(request, response);
 		
 		}
