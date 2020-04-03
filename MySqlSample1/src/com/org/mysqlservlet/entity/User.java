@@ -11,6 +11,15 @@ public class User {
 		this.username = username;
 		this.user_password = user_password;
 	}
+	
+	
+	public User(String username, String user_password) {
+		super();
+		this.username = username;
+		this.user_password = user_password;
+	}
+
+
 	public int getUser_id() {
 		return User_id;
 	}

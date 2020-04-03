@@ -1,6 +1,7 @@
 package com.org.mysqlservlet.model;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -39,6 +40,30 @@ public class UserModel {
 		
 		
 		return listUsers;
+		
+	}
+
+	
+
+	public boolean addUser(DataSource dataSource,User newUser) {
+		Connection connection=null;
+		PreparedStatement stmt=null;
+		
+		try {
+			connection = dataSource.getConnection();
+			String username=newUser.getUsername();
+			String user_password=newUser.getUser_password();
+			
+			String query="insert into user (username,user_password) values (?,?)";
+			stmt=connection.prepareStatement(query);
+			stmt.setString(1, username);
+			stmt.setString(2, user_password);
+			return stmt.execute();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			return false;
+		}
 		
 	}
 	
