@@ -45,7 +45,7 @@ public class UserModel {
 
 	
 
-	public boolean addUser(DataSource dataSource,User newUser) {
+	public void addUser(DataSource dataSource,User newUser) {
 		Connection connection=null;
 		PreparedStatement stmt=null;
 		
@@ -58,12 +58,38 @@ public class UserModel {
 			stmt=connection.prepareStatement(query);
 			stmt.setString(1, username);
 			stmt.setString(2, user_password);
-			return stmt.execute();
+		    stmt.execute();
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
-			return false;
+			
 		}
+		
+	}
+
+
+
+	public void updateUser(DataSource dataSource, User updatedUser) {
+	    Connection connection=null;
+	    PreparedStatement stmt=null;
+	    
+	    try {
+	    	connection=dataSource.getConnection();
+	    	int User_id= updatedUser.getUser_id();
+	    	String username= updatedUser.getUsername();
+	    	String user_password= updatedUser.getUser_password();
+	    	String query="update user set username=?,user_password=? where User_id=?";
+	    	stmt=connection.prepareStatement(query);
+	    	stmt.setString(1, username);
+	    	stmt.setString(2, user_password);
+	    	stmt.setInt(3, User_id);
+	    	 stmt.execute();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 	}
 	
