@@ -92,6 +92,28 @@ public class UserModel {
 		
 		
 	}
+
+
+
+	public void deleteUser(DataSource dataSource,int user_id) {
+		 Connection connection=null;
+		    PreparedStatement stmt=null;
+		    
+		    try {
+		    	connection=dataSource.getConnection();
+		    	
+		    	String query="delete from user where User_id=?";
+		    	stmt=connection.prepareStatement(query);
+		    	stmt.setInt(1, user_id);
+		    	 stmt.execute();
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+		
+	}
 	
 	
 	

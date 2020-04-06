@@ -2,6 +2,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.org.mysqlservlet.entity.User" %>
 <%@include file="include/header.jsp" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="container mtb">
 	<div class="row">
 		<div class="col-lg-6">
@@ -12,24 +13,35 @@
 			<th>User ID</th>
 			<th>User name</th>
 			<th>User Password</th>
-			<th>Update</th>
+			<th>Operation</th>
 			</thread>
-			<%
-			List<User> listUsers =(List) request.getAttribute("listUsers");
-			String tempURL;
-			for(int i=0;i<listUsers.size();i++){
-				out.print("<tr>");
-				out.print("<td>"+listUsers.get(i).getUser_id()+"</td>");
-				out.print("<td>"+listUsers.get(i).getUsername()+"</td>");
-				out.print("<td>"+listUsers.get(i).getUser_password()+"</td>");
-				tempURL=request.getContextPath()+"/operation?page=updateUser"+
-				"&User_id="+listUsers.get(i).getUser_id()+
-				"&username="+listUsers.get(i).getUsername()+
-			    "&user_password="+listUsers.get(i).getUser_password();
-				out.print("<td><a href="+tempURL+"> Update<a/></td>");
-				out.print("</tr>");
-			}
-			%>
+			
+			<c:forEach items="${listUsers}" var="user">
+				<c:url var="updateURL" value="operation">
+				<c:param name="page" value="updateUser"></c:param>			
+				<c:param name="User_id" value="${user.user_id}"></c:param>
+				<c:param name="username" value="${user.username}"></c:param>
+				<c:param name="user_password" value="${user.user_password}"></c:param>
+				</c:url>
+				
+				<c:url var="deleteUser" value="operation">
+				<c:param name="page" value="deleteUser"></c:param>			
+				<c:param name="User_id" value="${user.user_id}"></c:param>
+				</c:url>
+				
+				<tr>
+ 				<td>${user.user_id}</td>
+ 				<td>${user.username}</td>
+ 				<td>${user.user_password}</td>
+ 				<td>
+ 				<a href="${updateURL}">Update</a>|
+ 				<a href="${deleteUser}"
+					onclick="if(!confirm('Are you sure to delete the user?')) return false">Delete</a>
+ 				</td>
+ 				</tr>			
+				</c:forEach>
+			
+			
 			</table>	
 		</div>
 	</div>
